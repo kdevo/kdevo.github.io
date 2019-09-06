@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: kdevo.github.io
+Token: d1b547d96f0c2a200de53b6b96303283a41210b36713b760f36e2134f787c34d
