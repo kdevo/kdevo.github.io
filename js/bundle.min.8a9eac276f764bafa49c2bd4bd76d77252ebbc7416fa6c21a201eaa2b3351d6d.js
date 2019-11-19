@@ -8,9 +8,7 @@ line.removeAttribute(`${this.pfx}-cursor`);}}
 async type(line){const chars=[...line.textContent];const delay=line.getAttribute(`${this.pfx}-typeDelay`)||this.typeDelay;line.textContent='';this.container.appendChild(line);for(let char of chars){await this._wait(delay);line.textContent+=char;}}
 async progress(line){const progressLength=line.getAttribute(`${this.pfx}-progressLength`)||this.progressLength;const progressChar=line.getAttribute(`${this.pfx}-progressChar`)||this.progressChar;const chars=progressChar.repeat(progressLength);const progressPercent=line.getAttribute(`${this.pfx}-progressPercent`)||this.progressPercent;line.textContent='';this.container.appendChild(line);for(let i=1;i<chars.length+1;i++){await this._wait(this.typeDelay);const percent=Math.round(i/chars.length*100);line.textContent=`${chars.slice(0,i)}`;if(this.showPercent){line.textContent+=` ${percent}%`}
 if(percent>progressPercent){break;}}}
-_wait(time){return new Promise(resolve=>setTimeout(resolve,time));}}
-;
-(function(){var ANIMATION_TIME=500
+_wait(time){return new Promise(resolve=>setTimeout(resolve,time));}};(function(){var ANIMATION_TIME=500
 var $=document.querySelector.bind(document),$$=document.querySelectorAll.bind(document),modal,modalBoxes=$$('.modal-box'),openLinks=$$('.gallery-modal-link'),closeLinks=$$('.close')
 function openModal(){modalBoxes.forEach(function(box){box.classList.add('scale-in-center')
 box.classList.remove('scale-out-center')})}
@@ -35,4 +33,54 @@ open($(link.getAttribute('href')))}})
 closeLinks.forEach(function(link){link.onclick=function(e){e.preventDefault()
 closeModal()}})
 window.onclick=function(e){if(e.target===modal){closeModal()}}
-document.onkeydown=function(e){if(e.key==='Escape'){closeModal()}}})()
+document.onkeydown=function(e){if(e.key==='Escape'){closeModal()}}})();(function(){var $=document.querySelector.bind(document),$$=document.querySelectorAll.bind(document),menuActive=false
+window.onscroll=function(){var scrollPosition=window.pageYOffset||document.documentElement.scrollTop,windowHeight=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,navHeight=$('nav').clientHeight
+if(scrollPosition>windowHeight-navHeight){$('nav').classList.add('nav-fixed')
+$$('nav > .logo, nav > .nav-toggle').forEach(function(el){el.style.visibility='visible'
+el.classList.add('show')
+el.classList.remove('hide')})}else{$('nav').classList.remove('nav-fixed')
+$$('nav > .logo, nav > .nav-toggle').forEach(function(el){el.style.visibility='hidden'
+el.classList.add('hide')
+el.classList.remove('show')})}}
+function toggle(){if(menuActive){$('#open').classList.remove('icon-active')
+menuActive=false}else{$('#open').classList.add('icon-active')
+menuActive=true}}
+$('.nav-icon').addEventListener('click',function(){$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})
+toggle()})
+$$('.nav-full a').forEach(function(links){links.addEventListener('click',function(){toggle()
+$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})})})
+$('.logo').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})}})
+$('body').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$('html').style.overflowY='hidden'}else{$('html').style.overflowY='scroll'}})
+function fullMobileViewport(){var element=this,viewportHeight=window.innerHeight,heightChangeTolerance=100
+$(window).resize(function(){if(Math.abs(viewportHeight-window.innerHeight)>heightChangeTolerance){viewportHeight=window.innerHeight
+update()}})
+function update(){element.style.height=(viewportHeight+'px')}
+update()}
+$$('header').forEach(function(){fullMobileViewport})})();function setVisibility(e,visible){e.classList.add(visible?'show':'hide')
+e.classList.remove(visible?'hide':'show')
+if(visible){e.style.visibility="visible"
+e.removeAttribute("hidden")}else{e.style.visibility="hidden"
+e.setAttribute("hidden",true)}}
+(function(){var $=document.querySelector.bind(document)
+var realmsg=$('textarea[name=message2]')
+var honeypotmsg=$('textarea[name=message]')
+setVisibility(realmsg,true)
+setVisibility(honeypotmsg,false)
+honeypotmsg.removeAttribute("required")
+$('#form-contact').addEventListener('submit',function(e){e.preventDefault()
+var name=$('input[name=name]').value,email=$('input[name=email]').value,subject=$('input[name=_subject]').value,message=realmsg.value,honeypot=honeypotmsg.value
+request=new XMLHttpRequest(),data={name:name,_replyto:email,email:email,_subject:subject,message:message,}
+if(honeypot!==""){data._anti_spam_honeypot=honeypot}
+var sending=$('#form-sending'),submit=$('#form-submit'),thanks=$('#form-thankyou'),error=$('#form-error')
+setVisibility(submit,false)
+setVisibility(sending,true)
+request.open('POST','https://usebasin.com/f/6f0f30b84119',true)
+request.setRequestHeader('Content-Type','application/json')
+request.setRequestHeader('Accept','application/json')
+request.onreadystatechange=function(){if(request.readyState===XMLHttpRequest.DONE){if(request.status===200){$('#form-contact').reset()
+function thankYouFadeIn(){setVisibility(sending,false)
+setVisibility(thanks,true)
+setTimeout(thankYouFadeOut,6000)};function thankYouFadeOut(){setVisibility(thanks,false)
+setVisibility(submit,true)};thankYouFadeIn()}else{$('#form-contact').reset()
+setVisibility(error,true)}}}
+request.send(JSON.stringify(data))})})()
