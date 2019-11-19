@@ -1,3 +1,1 @@
 User-agent: *
-Disallow: /about/
-Disallow: /about/index.html
