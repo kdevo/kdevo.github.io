@@ -36,11 +36,11 @@ window.onclick=function(e){if(e.target===modal){closeModal()}}
 document.onkeydown=function(e){if(e.key==='Escape'){closeModal()}}})();(function(){var $=document.querySelector.bind(document),$$=document.querySelectorAll.bind(document),menuActive=false
 window.onscroll=function(){var scrollPosition=window.pageYOffset||document.documentElement.scrollTop,windowHeight=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,navHeight=$('nav').clientHeight
 if(scrollPosition>windowHeight-navHeight){$('nav').classList.add('nav-fixed')
-$('nav').removeAttribute("hidden")
+$('nav').classList.add('nav-shadow')
 $$('nav > .logo, nav > .nav-toggle').forEach(function(el){el.style.visibility='visible'
 el.classList.add('show')
 el.classList.remove('hide')})}else{$('nav').classList.remove('nav-fixed')
-$('nav').setAttribute("hidden",true)
+$('nav').classList.remove('nav-shadow')
 $$('nav > .logo, nav > .nav-toggle').forEach(function(el){el.style.visibility='hidden'
 el.classList.add('hide')
 el.classList.remove('show')})}}
