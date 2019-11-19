@@ -8,7 +8,9 @@ line.removeAttribute(`${this.pfx}-cursor`);}}
 async type(line){const chars=[...line.textContent];const delay=line.getAttribute(`${this.pfx}-typeDelay`)||this.typeDelay;line.textContent='';this.container.appendChild(line);for(let char of chars){await this._wait(delay);line.textContent+=char;}}
 async progress(line){const progressLength=line.getAttribute(`${this.pfx}-progressLength`)||this.progressLength;const progressChar=line.getAttribute(`${this.pfx}-progressChar`)||this.progressChar;const chars=progressChar.repeat(progressLength);const progressPercent=line.getAttribute(`${this.pfx}-progressPercent`)||this.progressPercent;line.textContent='';this.container.appendChild(line);for(let i=1;i<chars.length+1;i++){await this._wait(this.typeDelay);const percent=Math.round(i/chars.length*100);line.textContent=`${chars.slice(0,i)}`;if(this.showPercent){line.textContent+=` ${percent}%`}
 if(percent>progressPercent){break;}}}
-_wait(time){return new Promise(resolve=>setTimeout(resolve,time));}};(function(){var ANIMATION_TIME=500
+_wait(time){return new Promise(resolve=>setTimeout(resolve,time));}}
+;
+(function(){var ANIMATION_TIME=500
 var $=document.querySelector.bind(document),$$=document.querySelectorAll.bind(document),modal,modalBoxes=$$('.modal-box'),openLinks=$$('.gallery-modal-link'),closeLinks=$$('.close')
 function openModal(){modalBoxes.forEach(function(box){box.classList.add('scale-in-center')
 box.classList.remove('scale-out-center')})}
