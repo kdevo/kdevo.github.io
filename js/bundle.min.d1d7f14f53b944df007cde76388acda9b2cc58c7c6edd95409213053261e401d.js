@@ -45,18 +45,12 @@ el.classList.remove('show')})}}
 function toggle(){if(menuActive){$('#open').classList.remove('icon-active')
 menuActive=false}else{$('#open').classList.add('icon-active')
 menuActive=true}}
-$('.nav-icon').addEventListener('click',function(){$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})
-toggle()})
+$('.nav-icon').addEventListener('click',function(){toggle()
+$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})})
 $$('.nav-full a').forEach(function(links){links.addEventListener('click',function(){toggle()
 $$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})})})
 $('.logo').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})}})
-$('body').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$('html').style.overflowY='hidden'}else{$('html').style.overflowY='scroll'}})
-function fullMobileViewport(){var element=this,viewportHeight=window.innerHeight,heightChangeTolerance=100
-$(window).resize(function(){if(Math.abs(viewportHeight-window.innerHeight)>heightChangeTolerance){viewportHeight=window.innerHeight
-update()}})
-function update(){element.style.height=(viewportHeight+'px')}
-update()}
-$$('header').forEach(function(){fullMobileViewport})})();function setVisibility(e,visible){e.classList.add(visible?'show':'hide')
+$('body').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$('html').style.overflowY='hidden'}else{$('html').style.overflowY='scroll'}})})();function setVisibility(e,visible){e.classList.add(visible?'show':'hide')
 e.classList.remove(visible?'hide':'show')
 if(visible){e.style.visibility="visible"
 e.removeAttribute("hidden")}else{e.style.visibility="hidden"
@@ -69,7 +63,7 @@ setVisibility(honeypotmsg,false)
 honeypotmsg.removeAttribute("required")
 $('#form-contact').addEventListener('submit',function(e){e.preventDefault()
 var name=$('input[name=name]').value,email=$('input[name=email]').value,subject=$('input[name=_subject]').value,message=realmsg.value,honeypot=honeypotmsg.value
-request=new XMLHttpRequest(),data={name:name,_replyto:email,email:email,_subject:subject,message:message,}
+var request=new XMLHttpRequest(),data={name:name,_replyto:email,email:email,_subject:subject,message:message,}
 if(honeypot!==""){data._anti_spam_honeypot=honeypot}
 var sending=$('#form-sending'),submit=$('#form-submit'),thanks=$('#form-thankyou'),error=$('#form-error')
 setVisibility(submit,false)
