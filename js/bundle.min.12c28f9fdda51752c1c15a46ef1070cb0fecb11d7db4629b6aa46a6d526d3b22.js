@@ -33,7 +33,7 @@ function open(modalElement){modal=modalElement
 modal.classList.add('active')
 openModal()
 var term=$(`#term-${modal.getAttribute('id')}`)
-if(term!==null&&typeof terms[modal.getAttribute('id')]==='undefined'){var termOptions=JSON.parse('{"lineDelay":250,"progressChar":"★","progressLength":16,"showPercent":"true","startDelay":800,"typeDelay":30}')
+if(term!==null&&typeof terms[modal.getAttribute('id')]==='undefined'){var termOptions=JSON.parse('{"lineDelay":250,"progressChar":"★","progressLength":14,"showPercent":"true","startDelay":800,"typeDelay":30}')
 termOptions.onExitCommand=function(){term.classList.add('scale-out-center')
 setTimeout(function(){$(`#content-${modal.getAttribute('id')}`).removeAttribute("hidden")
 term.setAttribute("hidden",true)},ANIMATION_TIME+10)}
