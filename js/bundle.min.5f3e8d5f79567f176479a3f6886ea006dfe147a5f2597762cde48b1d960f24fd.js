@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded',function(){const ITEMS=[...$$(".nav
 const SECTIONS=[...$$("main > section")].reverse()
 const THRESHOLD=340
 var oldIdx=-1
-console.log(ITEMS);console.log(SECTIONS);window.addEventListener("scroll",()=>{const idx=SECTIONS.length-SECTIONS.findIndex((sec)=>window.scrollY>sec.offsetTop-THRESHOLD)-1
+window.addEventListener("scroll",()=>{const idx=SECTIONS.length-SECTIONS.findIndex((sec)=>window.scrollY>sec.offsetTop-THRESHOLD)-1
 if(idx!=oldIdx){ITEMS.forEach((itm)=>itm.classList.remove("nav-item-active"))
 ITEMS[idx].classList.add("nav-item-active")
-oldIdx=idx}});},false);;'use strict';class Termynal{constructor(container='#termynal',options={}){this.container=(typeof container==='string')?document.querySelector(container):container;this.pfx=`data-${options.prefix||'ty'}`;this.startDelay=options.startDelay||600;this.typeDelay=options.typeDelay||90;this.lineDelay=options.lineDelay||1500;this.progressLength=options.progressLength||40;this.progressChar=options.progressChar||'█';this.progressPercent=options.progressPercent||100;this.showPercent=options.showPercent=='true';this.onExitCommand=options.onExitCommand;this.cursor=options.cursor||'▋';if(!options.noInit)this.init()}
+oldIdx=idx}});},false);;'use strict';class Termynal{constructor(container='#termynal',options={}){this.container=(typeof container==='string')?document.querySelector(container):container;this.pfx=`data-${options.prefix||'ty'}`;this.startDelay=options.startdelay||800;this.typeDelay=options.typedelay||30;this.lineDelay=options.linedelay||250;this.progressLength=options.progresslength||14;this.progressChar=options.progresschar||'★';this.progressPercent=options.progressPercent||100;this.showPercent=("showpercent"in options&&options.showpercent)||(!"showpercent"in options&&true);this.onExitCommand=options.onExitCommand;this.cursor=options.cursor||'▋';if(!options.noInit)this.init()}
 init(){this.lines=[...this.container.querySelectorAll(`[${this.pfx}]`)].concat(this.lineData);const containerStyle=getComputedStyle(this.container);this.container.style.width=containerStyle.width!=='0px'?containerStyle.width:undefined;this.container.style.minHeight=containerStyle.height!=='0px'?containerStyle.height:undefined;this.container.setAttribute('data-termynal','');this.container.innerHTML='';this.start();}
 async start(){await this._wait(this.startDelay);for(let line of this.lines){if(typeof line==='undefined'){break}
 const type=line.getAttribute(this.pfx);const delay=line.getAttribute(`${this.pfx}-delay`)||this.lineDelay;if(type=='input'){line.setAttribute(`${this.pfx}-cursor`,this.cursor);await this.type(line);await this._wait(delay);if(line.textContent==='exit'&&typeof this.onExitCommand!=='undefined'){this.onExitCommand()}}
@@ -29,34 +29,35 @@ box.classList.remove('scale-out-center')})}
 function closeModal(){modalBoxes.forEach(function(box){box.classList.remove('scale-in-center')
 box.classList.add('scale-out-center')
 setTimeout(function(){modal.classList.remove('active')},ANIMATION_TIME)})}
+var terms={};var termOptions={};termOptions["osprey-delight"]=JSON.parse('{"progresschar":"█","showpercent":true}')
+termOptions["kd"]=JSON.parse('{"showpercent":false}')
 function open(modalElement){modal=modalElement
 modal.classList.add('active')
 openModal()
-var term=$(`#term-${modal.getAttribute('id')}`)
-if(term!==null&&typeof terms[modal.getAttribute('id')]==='undefined'){var termOptions=JSON.parse('{"lineDelay":250,"progressChar":"★","progressLength":14,"showPercent":"true","startDelay":800,"typeDelay":30}')
-termOptions.onExitCommand=function(){term.classList.add('scale-out-center')
-setTimeout(function(){$(`#content-${modal.getAttribute('id')}`).removeAttribute("hidden")
+var termKey=modal.getAttribute('id').replace('modal-','')
+var term=$(`#term-${termKey}`)
+if(term!==null&&typeof terms[termKey]==='undefined'){var options=termOptions[termKey]
+options.onExitCommand=function(){term.classList.add('scale-out-center')
+setTimeout(function(){$(`#content-${termKey}`).removeAttribute("hidden")
 term.setAttribute("hidden",true)},ANIMATION_TIME+10)}
-terms[modal.getAttribute('id')]=new Termynal(term,termOptions)}}
-var terms={};openLinks.forEach(function(link){link.onclick=function(e){e.preventDefault()
-open($(e.target.getAttribute('href')))}
+terms[termKey]=new Termynal(term,options)}}
+openLinks.forEach(function(link){link.onclick=function(e){e.preventDefault()
+open($(`#modal-${e.target.getAttribute('href').substr(1)}`))}
 const loc=window.location.href
 const seg=loc.substring(loc.lastIndexOf('/')+1)
-if(link.getAttribute('href')==seg){console.log($("#work"))
-console.log("SCROLL")
-$("#work").scrollIntoView()
-open($(link.getAttribute('href')))}})
+if(link.getAttribute('href')==seg){open($(`#modal-${link.getAttribute('href').substr(1)}`))}})
 closeLinks.forEach(function(link){link.onclick=function(e){e.preventDefault()
 closeModal()}})
 window.onclick=function(e){if(e.target===modal){closeModal()}}
 document.onkeydown=function(e){if(e.key==='Escape'){closeModal()}}})();(function(){menuActive=false
-window.onscroll=function(){var scrollPosition=window.pageYOffset||document.documentElement.scrollTop,windowHeight=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,navHeight=$('nav').clientHeight
-if(scrollPosition>windowHeight-navHeight){$('nav').classList.add('nav-fixed')
-$('nav').classList.add('nav-shadow')
+var nav=$('nav')
+window.onscroll=function(){var scrollPosition=window.pageYOffset||document.documentElement.scrollTop,windowHeight=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,navHeight=nav.clientHeight
+if(scrollPosition>windowHeight-navHeight){nav.classList.add('nav-fixed')
+nav.classList.add('nav-shadow')
 $$('nav > .logo, nav > .nav-toggle').forEach(function(el){el.style.visibility='visible'
 el.classList.add('show')
-el.classList.remove('hide')})}else{$('nav').classList.remove('nav-fixed')
-$('nav').classList.remove('nav-shadow')
+el.classList.remove('hide')})}else{nav.classList.remove('nav-fixed')
+nav.classList.remove('nav-shadow')
 $$('nav > .logo, nav > .nav-toggle').forEach(function(el){el.style.visibility='hidden'
 el.classList.add('hide')
 el.classList.remove('show')})}}
@@ -67,7 +68,8 @@ $('.nav-icon').addEventListener('click',function(){toggle()
 $$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})})
 $$('.nav-full a').forEach(function(links){links.addEventListener('click',function(){toggle()
 $$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})})})
-$('.logo').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})}})
+$('.logo').addEventListener('click',function(){toggle()
+if($('.nav-full').classList.contains('active')){$$('.nav-full, main').forEach(function(el){el.classList.toggle('active')})}})
 $('body').addEventListener('click',function(){if($('.nav-full').classList.contains('active')){$('html').style.overflowY='hidden'}else{$('html').style.overflowY='scroll'}})
 function fullMobileViewport(){var element=this,viewportHeight=window.innerHeight,heightChangeTolerance=100
 $(window).resize(function(){if(Math.abs(viewportHeight-window.innerHeight)>heightChangeTolerance){viewportHeight=window.innerHeight
